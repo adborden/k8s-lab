@@ -1,0 +1,15 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: argocd
+    repoURL: https://github.com/adborden/k8s-lab.git
+    targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd

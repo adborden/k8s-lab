@@ -1,0 +1,15 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx-controller
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: ingress-nginx-controller
+    repoURL: https://github.com/adborden/k8s-lab.git
+    targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-nginx-controller

@@ -1,0 +1,42 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: cert-manager
+
+resources:
+  - resources/namespace.yaml
+  - resources/google-cloud-issuer.yaml
+
+patches:
+  #- patches/cert-manager-deployment.yaml
+  - target:
+      kind: Deployment
+      name: cert-manager
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/2
+        value: --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
+
+helmCharts:
+  - name: cert-manager
+    repo: https://charts.jetstack.io
+    releaseName: cert-manager
+    namespace: cert-manager
+    version: 1.10.1
+    valuesInline:
+      installCRDs: true
+
+#replacements:
+#  - source:
+#      kind: Secret
+#      name: clouddns-dns01-solver-svc-acct
+#      version: v1
+#      namespace: cert-manager
+#      #fieldPath: data.project_id
+#    targets:
+#      - select:
+#          kind: Issuer
+#          name: google-cloud
+#        fieldPaths:
+#          - spec.acme.solvers[0].dns01.cloudDNS.project
