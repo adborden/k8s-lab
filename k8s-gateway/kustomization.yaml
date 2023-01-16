@@ -6,7 +6,6 @@ helmCharts:
   - name: k8s-gateway
     repo: https://ori-edge.github.io/k8s_gateway/
     releaseName: k8s-gateway
-    namespace: k8s-gateway
     version: 2.0.0
     valuesInline:
       domain: fl.a14n.net
