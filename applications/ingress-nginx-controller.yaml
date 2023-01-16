@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: ingress-nginx-controller
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
