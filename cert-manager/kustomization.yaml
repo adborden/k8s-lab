@@ -9,7 +9,6 @@ resources:
   - resources/cluster-issuer.yaml
 
 patches:
-  #- patches/cert-manager-deployment.yaml
   - target:
       kind: Deployment
       name: cert-manager

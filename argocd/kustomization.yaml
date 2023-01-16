@@ -10,3 +10,5 @@ resources:
   # stable ref
   - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+patches:
+  - patches/configmap-argocd.yaml
