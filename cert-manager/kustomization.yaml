@@ -6,7 +6,7 @@ namespace: cert-manager
 
 resources:
   - resources/namespace.yaml
-  - resources/google-cloud-issuer.yaml
+  - resources/cluster-issuer.yaml
 
 patches:
   #- patches/cert-manager-deployment.yaml
@@ -26,17 +26,3 @@ helmCharts:
     version: 1.10.1
     valuesInline:
       installCRDs: true
-
-#replacements:
-#  - source:
-#      kind: Secret
-#      name: clouddns-dns01-solver-svc-acct
-#      version: v1
-#      namespace: cert-manager
-#      #fieldPath: data.project_id
-#    targets:
-#      - select:
-#          kind: Issuer
-#          name: google-cloud
-#        fieldPaths:
-#          - spec.acme.solvers[0].dns01.cloudDNS.project
