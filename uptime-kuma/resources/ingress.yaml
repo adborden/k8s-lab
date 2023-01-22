@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: uptime-kuma
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - status.fl.a14n.net
+      secretName: uptime-kuma-tls
+  rules:
+    - host: status.fl.a14n.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service
+                port:
+                  number: 3001
