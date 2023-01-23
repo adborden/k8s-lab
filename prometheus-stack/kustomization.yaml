@@ -21,6 +21,7 @@ helmCharts:
           tls:
             - hosts:
                 - alertmanager.fl.a14n.net
+              secretName: alertmanager-tls
       grafana:
         ingress:
           enabled: true
@@ -30,6 +31,7 @@ helmCharts:
           tls:
             - hosts:
                 - grafana.fl.a14n.net
+              secretName: grafana-tls
       prometheus:
         ingress:
           enabled: true
@@ -39,3 +41,4 @@ helmCharts:
           tls:
             - hosts:
                 - prometheus.fl.a14n.net
+              secretName: prometheus-tls
