@@ -15,6 +15,8 @@ helmCharts:
       alertmanager:
         ingress:
           enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt
           ingressClassName: nginx
           hosts:
             - alertmanager.fl.a14n.net
@@ -25,6 +27,8 @@ helmCharts:
       grafana:
         ingress:
           enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt
           ingressClassName: nginx
           hosts:
             - grafana.fl.a14n.net
@@ -35,6 +39,8 @@ helmCharts:
       prometheus:
         ingress:
           enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt
           ingressClassName: nginx
           hosts:
             - prometheus.fl.a14n.net
