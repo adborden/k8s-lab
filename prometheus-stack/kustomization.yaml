@@ -11,5 +11,32 @@ helmCharts:
     releaseName: prometheus-stack
     namespace: monitoring
     version: 44.2.1
+    includeCRDs: true
     valuesInline:
-      installCRDs: true
+      alertmanager:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hosts:
+            - alertmanager.fl.a14n.net
+          tls:
+            - hosts:
+                - alertmanager.fl.a14n.net
+      grafana:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hosts:
+            - grafana.fl.a14n.net
+          tls:
+            - hosts:
+                - grafana.fl.a14n.net
+      prometheus:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hosts:
+            - prometheus.fl.a14n.net
+          tls:
+            - hosts:
+                - prometheus.fl.a14n.net
