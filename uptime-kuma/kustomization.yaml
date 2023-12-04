@@ -8,3 +8,6 @@ resources:
   - https://github.com/adborden/k8s-uptime-kuma.git/uptime-kuma?ref=main
   - resources/ingress.yaml
   - resources/namespace.yaml
+
+patches:
+  - path: patches/deployment.yaml
