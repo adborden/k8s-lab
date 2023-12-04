@@ -9,9 +9,10 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: a14n.net/network-media
-                operator: In
-                values:
-                - wired
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: a14n.net/network-media
+                    operator: In
+                    values:
+                      - wired
