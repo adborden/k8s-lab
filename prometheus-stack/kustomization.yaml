@@ -10,7 +10,8 @@ helmCharts:
     repo: https://prometheus-community.github.io/helm-charts
     releaseName: prometheus-stack
     namespace: monitoring
-    version: 44.2.1
+    version: 45.31.1
+    #56.7.0
     valuesInline:
       alertmanager:
         ingress:
