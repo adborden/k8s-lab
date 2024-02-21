@@ -17,8 +17,15 @@ helmCharts:
         config:
           route:
             receiver: default
+            routes:
+              - receiver: solana-validator
+                matchers:
+                  - service="solana"
+                continue: false
           receivers:
             - name: default
+              #discord_configs:
+              #  - webhook_url: ""
               pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/pd-default
             - name: solana-validator
@@ -63,3 +70,17 @@ helmCharts:
             - hosts:
                 - prometheus.fl.a14n.net
               secretName: prometheus-tls
+
+      additionalPrometheusRulesMap:
+        solana-exporter:
+          groups:
+            - name: solana-exporter down
+              rules:
+              - alert: down
+                expr: up{job="solana-exporter"} < 1
+                for: 10m
+                labels:
+                  severity: critical
+                  service: solana
+                annotations:
+                  summary: solana-exporter is down
