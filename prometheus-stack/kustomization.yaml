@@ -19,10 +19,10 @@ helmCharts:
             receiver: default
           receivers:
             - name: default
-              pagerduty_config:
+              pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/pd-default
             - name: solana-validator
-              pagerduty_config:
+              pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/pd-solana-validator
         alertmanagerSpec:
           secrets:
