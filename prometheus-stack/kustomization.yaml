@@ -21,6 +21,7 @@ helmCharts:
               - receiver: solana-validator
                 matchers:
                   - service="solana"
+                  - severity="critical"
                 continue: false
           receivers:
             - name: default
@@ -74,13 +75,21 @@ helmCharts:
       additionalPrometheusRulesMap:
         solana-exporter:
           groups:
-            - name: solana-exporter down
+            - name: solana-exporter
               rules:
-              - alert: down
-                expr: up{job="solana-exporter"} < 1
-                for: 10m
+              - alert: Down
+                expr: sum(up{job="solana-exporter"}) < 1
+                for: 5m
                 labels:
                   severity: critical
                   service: solana
                 annotations:
                   summary: solana-exporter is down
+              - alert: NoData
+                expr: absent(up{job="solana-exporter"}) > 0
+                for: 5m
+                labels:
+                  severity: critical
+                  service: solana
+                annotations:
+                  summary: solana-exporter is reporting no data.
