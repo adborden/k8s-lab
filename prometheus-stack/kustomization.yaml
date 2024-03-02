@@ -21,7 +21,6 @@ helmCharts:
               - receiver: solana-validator
                 matchers:
                   - service="solana"
-                  - severity="critical"
                 continue: false
           receivers:
             - name: default
@@ -81,7 +80,7 @@ helmCharts:
                 expr: sum(up{job="solana-exporter"}) < 1
                 for: 5m
                 labels:
-                  severity: critical
+                  severity: warning
                   service: solana
                 annotations:
                   summary: solana-exporter is down
@@ -89,7 +88,22 @@ helmCharts:
                 expr: absent(up{job="solana-exporter"}) > 0
                 for: 5m
                 labels:
-                  severity: critical
+                  severity: warning
                   service: solana
                 annotations:
                   summary: solana-exporter is reporting no data.
+              - alert: RebootRequired
+                expr: sum(node_reboot_required{job="solana-validator"}) by (network, validator) > 0
+                for: 5m
+                labels:
+                  severity: warning
+                  service: solana
+                annotations:
+                  summary: '{{ $labels.network }} solana-validator {{ $labels.validator }} requires a reboot'
+                  description: |
+                    solana-validator {{ $labels.validator }} requires a reboot.
+                    Please check delinquent stake and leaderslots before
+                    rebooting the instance.
+
+                    1. Check delinquent stake and leader slots
+                    2. sudo reboot
