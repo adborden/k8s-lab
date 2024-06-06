@@ -72,6 +72,7 @@ helmCharts:
                 - prometheus.fl.a14n.net
               secretName: prometheus-tls
         prometheusSpec:
+          retention: 30d
           storageSpec:
             volumeClaimTemplate:
               spec:
