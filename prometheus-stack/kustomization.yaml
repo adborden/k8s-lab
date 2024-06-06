@@ -71,6 +71,14 @@ helmCharts:
             - hosts:
                 - prometheus.fl.a14n.net
               secretName: prometheus-tls
+        prometheusSpec:
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 50Gi
 
       additionalPrometheusRulesMap:
         solana-exporter:
