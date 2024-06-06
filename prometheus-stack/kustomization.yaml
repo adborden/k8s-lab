@@ -58,6 +58,8 @@ helmCharts:
             - hosts:
                 - grafana.fl.a14n.net
               secretName: grafana-tls
+        persistence:
+          enabled: true
       prometheus:
         ingress:
           enabled: true
