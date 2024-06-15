@@ -12,6 +12,9 @@ spec:
     targetRevision: v1.14.5
     helm:
       valuesObject:
+        dashboard:
+          enabled: true
+          ssl: false
         ingress:
           dashboard:
             host:
@@ -23,10 +26,6 @@ spec:
                 secretName: rook-ceph-cluster-tls
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt
-              nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-              nginx.ingress.kubernetes.io/proxy-ssl-ciphers: TLS_AES_256_GCM_SHA384
-              nginx.ingress.kubernetes.io/proxy-ssl-protocols: TLSv1.3
-              nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
         monitoring:
           enabled: true
         cephClusterSpec:
