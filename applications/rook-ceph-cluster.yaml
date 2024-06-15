@@ -23,7 +23,8 @@ spec:
                 secretName: rook-ceph-cluster-tls
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt
-              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+              nginx.ingress.kubernetes.io/proxy-ssl-protocols: TLSv1.3
               nginx.ingress.kubernetes.io/server-snippet: |
                 proxy_ssl_verify off;
         monitoring:
