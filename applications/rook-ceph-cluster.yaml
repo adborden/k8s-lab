@@ -12,9 +12,6 @@ spec:
     targetRevision: v1.14.5
     helm:
       valuesObject:
-        dashboard:
-          enabled: true
-          ssl: false
         ingress:
           dashboard:
             host:
@@ -29,6 +26,9 @@ spec:
         monitoring:
           enabled: true
         cephClusterSpec:
+          dashboard:
+            enabled: true
+            ssl: false
           placement:
             all:
               nodeAffinity:
