@@ -39,6 +39,7 @@ spec:
                           operator: In
                           values:
                             - ceph
+          removeOSDsIfOutAndSafeToRemove: true
         cephBlockPools:
           - name: ceph-blockpool-ssd
             spec:
