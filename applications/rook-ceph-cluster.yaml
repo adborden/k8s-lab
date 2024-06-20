@@ -40,6 +40,8 @@ spec:
                           values:
                             - ceph
           removeOSDsIfOutAndSafeToRemove: true
+          toolbox:
+            enabled: true
         cephBlockPools:
           - name: ceph-blockpool-ssd
             spec:
