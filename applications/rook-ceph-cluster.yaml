@@ -25,6 +25,8 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt
         monitoring:
           enabled: true
+        toolbox:
+          enabled: true
         cephClusterSpec:
           dashboard:
             enabled: true
@@ -40,8 +42,6 @@ spec:
                           values:
                             - ceph
           removeOSDsIfOutAndSafeToRemove: true
-          toolbox:
-            enabled: true
         cephBlockPools:
           - name: ceph-blockpool-ssd
             spec:
