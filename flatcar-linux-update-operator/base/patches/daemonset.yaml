@@ -1,0 +1,11 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: flatcar-linux-update-agent
+  namespace: reboot-coordinator
+spec:
+  template:
+    spec:
+      nodeSelector:
+        os-distro: flatcar
