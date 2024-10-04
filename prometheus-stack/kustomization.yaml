@@ -38,11 +38,12 @@ helmCharts:
               pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-dead-man-switch
         defaultRules:
-          # k3s does not have these components
-          kubeControllerManager: true
-          kubeProxy: false
-          kubeSchedulerAlerting: false
-          kubeSchedulerRecording: false
+          rules:
+            # k3s does not have these components
+            kubeControllerManager: true
+            kubeProxy: false
+            kubeSchedulerAlerting: false
+            kubeSchedulerRecording: false
         alertmanagerSpec:
           secrets:
             - alertmanager-pagerduty
