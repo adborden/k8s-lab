@@ -37,13 +37,6 @@ helmCharts:
             - name: watchdog
               pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-dead-man-switch
-        defaultRules:
-          rules:
-            # k3s does not have these components
-            kubeControllerManager: true
-            kubeProxy: false
-            kubeSchedulerAlerting: false
-            kubeSchedulerRecording: false
         alertmanagerSpec:
           secrets:
             - alertmanager-pagerduty
@@ -58,6 +51,13 @@ helmCharts:
             - hosts:
                 - alertmanager.fl.a14n.net
               secretName: alertmanager-tls
+      defaultRules:
+        rules:
+          # k3s does not have these components
+          kubeControllerManager: true
+          kubeProxy: false
+          kubeSchedulerAlerting: false
+          kubeSchedulerRecording: false
       grafana:
         ingress:
           enabled: true
