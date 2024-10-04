@@ -31,6 +31,8 @@ metadata:
   namespace: system-upgrade
   labels:
     k3s: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   concurrency: 1
   version: v1.27.16+k3s1
