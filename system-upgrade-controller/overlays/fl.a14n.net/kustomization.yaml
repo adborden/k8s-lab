@@ -13,5 +13,5 @@ patches:
       labelSelector: k3s=true
     patch: |-
       - op: replace
-        path: /spec/version
-        value: v1.30.5+k3s1
+        path: /spec/channel
+        value: https://update.k3s.io/v1-release/channels/stable
