@@ -8,7 +8,7 @@ metadata:
     k3s: "true"
 spec:
   concurrency: 1
-  version: v1.27.16+k3s1
+  channel: https://update.k3s.io/v1-release/channels/stable
   nodeSelector:
     matchExpressions:
       - key: k3s-upgrade
@@ -35,7 +35,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   concurrency: 1
-  version: v1.27.16+k3s1
+  channel: https://update.k3s.io/v1-release/channels/stable
   nodeSelector:
     matchExpressions:
       - key: k3s-upgrade
