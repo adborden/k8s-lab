@@ -17,6 +17,10 @@ helmCharts:
           route:
             receiver: default
             routes:
+              - receiver: watchdog
+                matchers:
+                  - alertname="Watchdog"
+                continue: false
               - receiver: solana-validator
                 matchers:
                   - service="solana"
@@ -26,14 +30,16 @@ helmCharts:
               #discord_configs:
               #  - webhook_url: ""
               pagerduty_configs:
-                - routing_key_file: /etc/alertmanager/secrets/pd-default
+                - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-default
             - name: solana-validator
               pagerduty_configs:
-                - routing_key_file: /etc/alertmanager/secrets/pd-solana-validator
+                - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-solana-validator
+            - name: watchdog
+              pagerduty_configs:
+                - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-dead-man-switch
         alertmanagerSpec:
           secrets:
             - alertmanager-pagerduty
-
         ingress:
           enabled: true
           annotations:
