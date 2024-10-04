@@ -5,3 +5,13 @@ kind: Kustomization
 resources:
   - ../../base
   - resources/plan-k3s-upgrade.yaml
+
+patches:
+  - target:
+      group: upgrade.cattle.io
+      kind: Plan
+      labelSelector: k3s=true
+    patch: |-
+      - op: replace
+        path: /spec/version
+        value: v1.28.14+k3s1
