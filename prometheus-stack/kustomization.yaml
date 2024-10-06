@@ -54,7 +54,7 @@ helmCharts:
       defaultRules:
         rules:
           # k3s does not have these components
-          kubeControllerManager: true
+          kubeControllerManager: false
           kubeProxy: false
           kubeSchedulerAlerting: false
           kubeSchedulerRecording: false
