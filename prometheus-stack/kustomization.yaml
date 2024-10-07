@@ -10,7 +10,7 @@ helmCharts:
     repo: https://prometheus-community.github.io/helm-charts
     releaseName: prometheus-stack
     namespace: monitoring
-    version: 65.0.0
+    version: 65.1.0
     valuesInline:
       alertmanager:
         config:
@@ -35,8 +35,8 @@ helmCharts:
               pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-solana-validator
             - name: watchdog
-              pagerduty_configs:
-                - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-dead-man-switch
+              webhook_configs:
+                - url_file: /etc/alertmanager/secrets/alertmanager-pagerduty/uptime-kuma-alertmanager
         alertmanagerSpec:
           secrets:
             - alertmanager-pagerduty
