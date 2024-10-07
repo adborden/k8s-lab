@@ -35,8 +35,8 @@ helmCharts:
               pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-solana-validator
             - name: watchdog
-              pagerduty_configs:
-                - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-dead-man-switch
+              webhook_configs:
+                - url_file: /etc/alertmanager/secrets/alertmanager-pagerduty/uptime-kuma-alertmanager
         alertmanagerSpec:
           secrets:
             - alertmanager-pagerduty
