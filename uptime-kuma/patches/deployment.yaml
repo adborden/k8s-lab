@@ -16,3 +16,6 @@ spec:
                     operator: In
                     values:
                       - wired
+      containers:
+        - name: app
+          imagePullPolicy: IfNotPresent

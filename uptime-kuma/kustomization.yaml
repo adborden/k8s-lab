@@ -11,3 +11,7 @@ resources:
 
 patches:
   - path: patches/deployment.yaml
+
+images:
+  - name: louislam/uptime-kuma
+    newTag: 1.23.15
