@@ -20,7 +20,7 @@ helmCharts:
               - receiver: watchdog
                 matchers:
                   - alertname="Watchdog"
-                repeat_interval: 1m
+                repeat_interval: 5m
                 continue: false
               - receiver: solana-validator
                 matchers:
