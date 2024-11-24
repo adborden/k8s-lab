@@ -1,0 +1,70 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-problem-detector
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: node-problem-detector
+    repoURL: https://charts.deliveryhero.io/
+    targetRevision: 2.3.14
+    helm:
+      valuesObject:
+        extraVolumes:
+          - name: host-run
+            hostPath:
+              path: /run
+              type: Directory
+        extraVolumeMounts:
+          - name: host-run
+            mountPath: /host/run
+            readOnly: true
+        settings:
+          custom_monitor_definitions:
+            reboot_required.sh: |
+              #!/bin/sh -e
+              if [ -e /host/run/reboot-required ]; then
+                echo "Node requires a reboot"
+                exit 1
+              fi
+            reboot-required.json: |
+              {
+                "plugin": "custom",
+                "pluginConfig": {
+                  "invoke_interval": "5m",
+                  "timeout": "1m",
+                  "max_output_length": 80,
+                  "concurrency": 1
+                },
+                "conditions": [
+                  {
+                    "type": "RebootRequired",
+                    "reason": "NoRebootRequired",
+                    "message": "Node is running normally"
+                  }
+                ],
+                "source": "reboot-required",
+                "rules": [
+                  {
+                    "type": "permanent",
+                    "condition": "RebootRequired",
+                    "reason": "RebootRequired",
+                    "path": "/custom-config/reboot_required.sh",
+                    "timeout": "1m"
+                  }
+                ]
+              }
+          custom_plugin_monitors:
+            - "/custom-config/reboot-required.json"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: node-problem-detector
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
