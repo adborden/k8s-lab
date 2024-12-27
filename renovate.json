@@ -4,6 +4,6 @@
     "config:recommended"
   ],
   "argocd": {
-    "fileMatch": ["argocd/.+\\.yaml$"]
+    "fileMatch": ["applications/.+\\.yaml$"]
   }
 }
