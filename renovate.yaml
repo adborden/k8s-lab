@@ -1,3 +1,0 @@
-argocd:
-  fileMatch:
-    - applications/.+\\.yaml$
