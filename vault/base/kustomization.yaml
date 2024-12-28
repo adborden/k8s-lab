@@ -14,6 +14,26 @@ helmCharts:
         dataStorage:
           enabled: true
           size: 10Gi
+        extraEnvironmentVars:
+          GOOGLE_APPLICATION_CREDENTIALS: /etc/workload-identity/credentials.json  # Impersonation non-credentials via configmap
+        volumes:
+          - name: token
+            projected:
+              sources:
+                - serviceAccountToken:
+                    audience: https://iam.googleapis.com/projects/863555219739/locations/global/workloadIdentityPools/fl-a14n-net/providers/fl-a14n-net
+                    expirationSeconds: 3600
+                    path: token
+          - name: google-creds
+            configMap:
+              name: google-creds
+        volumeMounts:
+          - name: token
+            mountPath: /var/run/vault-fl-a14n-net
+            readOnly: true
+          - name: google-creds
+            mountPath: /etc/workload-identity
+            readOnly: true
         ha:
           enabled: true
           # https://developer.hashicorp.com/vault/docs/platform/k8s/helm/examples/ha-with-raft

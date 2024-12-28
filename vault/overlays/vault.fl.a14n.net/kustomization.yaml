@@ -5,6 +5,17 @@ kind: Kustomization
 resources:
   - ../../base
 
+configMapGenerator:
+  - name: vault-config
+    behavior: merge
+    files:
+      - files/auto-unseal.hcl
+  - name: google-creds
+    files:
+      - files/credentials.json
+    options:
+      disableNameSuffixHash: true
+
 patches:
   - target:
       kind: Ingress
