@@ -28,8 +28,8 @@ helmCharts:
                 continue: false
           receivers:
             - name: default
-              #discord_configs:
-              #  - webhook_url: ""
+              # discord_configs:
+              #   - webhook_url: ""
               pagerduty_configs:
                 - routing_key_file: /etc/alertmanager/secrets/alertmanager-pagerduty/pd-default
             - name: solana-validator

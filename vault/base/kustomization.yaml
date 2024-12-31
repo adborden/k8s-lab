@@ -15,13 +15,16 @@ helmCharts:
           enabled: true
           size: 10Gi
         extraEnvironmentVars:
-          GOOGLE_APPLICATION_CREDENTIALS: /etc/workload-identity/credentials.json  # Impersonation non-credentials via configmap
+          # Impersonation non-credentials via configmap
+          GOOGLE_APPLICATION_CREDENTIALS: >-
+            /etc/workload-identity/credentials.json
         volumes:
           - name: token
             projected:
               sources:
                 - serviceAccountToken:
-                    audience: https://iam.googleapis.com/projects/863555219739/locations/global/workloadIdentityPools/fl-a14n-net/providers/fl-a14n-net
+                    audience: >-
+                      https://iam.googleapis.com/projects/863555219739/locations/global/workloadIdentityPools/fl-a14n-net/providers/fl-a14n-net
                     expirationSeconds: 3600
                     path: token
           - name: google-creds
