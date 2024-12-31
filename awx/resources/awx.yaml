@@ -1,0 +1,14 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  ingress_type: ingress
+  ingress_class_name: nginx
+  ingress_hosts:
+    - hostname: awx.fl.a14n.net
+      tls_secret: awx-tls
+  ingress_annotations: |
+    cert-manager.io/cluster-issuer: letsencrypt
+  postgres_data_volume_init: true
