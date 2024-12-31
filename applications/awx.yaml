@@ -11,6 +11,7 @@ spec:
   source:
     repoURL: https://github.com/adborden/k8s-lab.git
     targetRevision: main
+    path: awx
   destination:
     server: https://kubernetes.default.svc
     namespace: awx
