@@ -1,0 +1,10 @@
+---
+extends: default
+
+ignore: |
+  charts
+  *.swp
+
+rules:
+  line-length:
+    max: 120
