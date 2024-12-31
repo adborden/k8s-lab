@@ -19,6 +19,7 @@ helmCharts:
           # Impersonation non-credentials via configmap
           GOOGLE_APPLICATION_CREDENTIALS: >-
             /etc/workload-identity/credentials.json
+        updateStrategyType: RollingUpdate
         volumes:
           - name: token
             projected:
