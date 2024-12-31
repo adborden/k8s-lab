@@ -6,6 +6,7 @@ namespace: kube-system
 
 helmCharts:
   - name: k8s-gateway
+    includeCRDs: true
     repo: https://ori-edge.github.io/k8s_gateway/
     releaseName: k8s-gateway
     version: 2.4.0
