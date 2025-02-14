@@ -28,12 +28,28 @@ data:
     message: Application {{.app.metadata.name}} has been created.
     teams:
       title: Application {{.app.metadata.name}} has been created.
+    webhook:
+      discord:
+        method: POST
+        body: |
+          {
+            "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+            "content": "Application **{{.app.metadata.name}}** has been created."
+          }
   template.app-deleted: |
     email:
       subject: Application {{.app.metadata.name}} has been deleted.
     message: Application {{.app.metadata.name}} has been deleted.
     teams:
       title: Application {{.app.metadata.name}} has been deleted.
+    webhook:
+      discord:
+        method: POST
+        body: |
+          {
+            "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+            "content": "Application **{{.app.metadata.name}}** has been deleted."
+          }
   template.app-deployed: |
     email:
       subject: New version of an application {{.app.metadata.name}} is up and running.
