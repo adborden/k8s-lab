@@ -11,3 +11,4 @@ resources:
 
 patches:
   - path: patches/configmap-argocd.yaml
+  - path: patches/configmap-argocd-notifications.yaml
