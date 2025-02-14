@@ -250,7 +250,7 @@ data:
         body: |
           {
             "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
-            "content": ":exclamation: Application {{.app.metadata.name}} has degraded. Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}} .",
+            "content": ":exclamation: Application {{.app.metadata.name}} has degraded ([details]({{.context.argocdUrl}}/applications/{{.app.metadata.name}})).",
             "embeds": [
               {
                 "title": "{{ .app.metadata.name }}",
@@ -367,7 +367,7 @@ data:
               {
                 "title": "{{ .app.metadata.name }}",
                 "url": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
-                "color": 1621586,
+                "color": 15297910,
                 "fields": [
                   {
                     "name": "Sync Status",
