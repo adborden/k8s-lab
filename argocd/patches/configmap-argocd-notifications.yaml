@@ -15,8 +15,7 @@ data:
     - recipients:
         - discord
       triggers:
-        - app-created
-        - app-deleted
+        - on-created
         - on-deleted
         - on-deployed
         - on-sync-failed
