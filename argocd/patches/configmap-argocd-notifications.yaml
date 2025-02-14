@@ -346,7 +346,7 @@ data:
         body: |
           {
             "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
-            "content": ":exclamation: The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}} Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .",
+            "content": ":exclamation: The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}} ([details]({{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true)).",
             "embeds": [
               {
                 "title": "{{ .app.metadata.name }}",
@@ -457,7 +457,7 @@ data:
         body: |
           {
             "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
-            "content": "The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}.  Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .",
+            "content": "The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}} ([details]({{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true)).",
             "embeds": [
               {
                 "title": "{{ .app.metadata.name }}",
@@ -681,7 +681,7 @@ data:
         body: |
           {
             "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
-            "content": ":white_check_mark: Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.  Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .",
+            "content": ":white_check_mark: Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}} ([details]({{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true)).",
             "embeds": [
               {
                 "title": "{{ .app.metadata.name }}",
