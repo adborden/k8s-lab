@@ -61,6 +61,15 @@ helmCharts:
           kubeSchedulerAlerting: false
           kubeSchedulerRecording: false
       grafana:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: a14n.net/storage
+                      operator: In
+                      values:
+                        - ceph
         ingress:
           enabled: true
           annotations:
@@ -87,6 +96,15 @@ helmCharts:
                 - prometheus.fl.a14n.net
               secretName: prometheus-tls
         prometheusSpec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: a14n.net/storage
+                        operator: In
+                        values:
+                          - ceph
           retention: 30d
           storageSpec:
             volumeClaimTemplate:
