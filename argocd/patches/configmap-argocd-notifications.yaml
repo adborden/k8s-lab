@@ -62,7 +62,7 @@ data:
     email:
       subject: New version of an application {{.app.metadata.name}} is up and running.
     message: |
-      {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} is now running new version of deployments manifests.
+      {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} is now running new version of deployments manifests ({{.app.status.sync.revision}}).
     slack:
       attachments: |
         [{
