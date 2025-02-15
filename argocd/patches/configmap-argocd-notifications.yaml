@@ -11,7 +11,14 @@ data:
     headers:
       - name: Content-Type
         value: application/json
+  service.grafana: |
+    apiUrl: https://grafana.fl.a14n.net/api
+    apiKey: $grafanaToken
   subscriptions: |
+    - recipients:
+        - grafana
+      triggers:
+        - on-deployed
     - recipients:
         - discord
       triggers:
