@@ -16,7 +16,7 @@ data:
     apiKey: $grafanaToken
   subscriptions: |
     - recipients:
-        - grafana
+        - grafana:deploy
       triggers:
         - on-deployed
     - recipients:
