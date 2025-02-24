@@ -11,7 +11,7 @@ spec:
   source:
     chart: awx-operator
     repoURL: https://ansible-community.github.io/awx-operator-helm/
-    targetRevision: 2.19.1
+    targetRevision: 3.0.0
   destination:
     server: https://kubernetes.default.svc
     namespace: awx
