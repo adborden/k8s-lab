@@ -2,6 +2,7 @@
 extends: default
 
 ignore: |
+  argocd/patches/configmap-argocd-notifications.yaml
   charts
   *.swp
 
