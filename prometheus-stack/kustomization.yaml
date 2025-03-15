@@ -83,7 +83,8 @@ helmCharts:
               secretName: grafana-tls
         persistence:
           enabled: true
-        deploymentStrategy: Recreate
+        deploymentStrategy:
+          type: Recreate
       prometheus:
         ingress:
           enabled: true
