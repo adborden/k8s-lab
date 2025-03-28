@@ -9,7 +9,7 @@ helmCharts:
     includeCRDs: true
     repo: https://helm.releases.hashicorp.com
     releaseName: vault
-    version: 0.29.1
+    version: 0.30.0
     valuesInline:
       server:
         dataStorage:
