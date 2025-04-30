@@ -88,6 +88,7 @@ spec:
                 csi.storage.k8s.io/fstype: ext4
         cephBlockPoolsVolumeSnapshotClass:
           enabled: true
+          isDefault: true
 
   destination:
     server: https://kubernetes.default.svc
