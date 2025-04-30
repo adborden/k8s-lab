@@ -1,0 +1,20 @@
+---
+configuration:
+  backupStorageLocation:
+    - name: default
+      provider: velero.io/aws
+      bucket: a14n-velero-backups
+      config:
+        s3Url: https://s3.us-west-002.backblazeb2.com
+        region: sfo3
+      credential:
+        name: velero-b2
+        key: application-key
+  volumeSnapshotLocation:
+    - name: default
+      provider: velero.io/csi
+      credential:
+        name: velero-b2
+        key: application-key
+      config: {}
+  features: EnableCSI
