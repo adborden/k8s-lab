@@ -23,3 +23,11 @@ data:
           end
         end
         return hs
+  resourceExclusions: |
+    - apiGroups:
+        - velero.io
+      kinds:
+        - Backup
+        - Restore
+      clusters:
+        - "*"

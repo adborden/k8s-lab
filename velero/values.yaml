@@ -24,3 +24,12 @@ configuration:
       credential: {}
       config: {}
   features: EnableCSI
+schedules:
+  cluster:
+    schedule: '@every 24h'
+    includeClusterResources: true
+    template:
+      csiSnapshotTimeout: 30m
+      itemOperationTimeout: 60m
+      ttl: 336h
+    useOwnerReferencesInBackup: false
