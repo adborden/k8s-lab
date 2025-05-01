@@ -4,6 +4,7 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
+  application.resourceTrackingMethod: annotation
   kustomize.buildOptions: --enable-helm
   resource.customizations: |
     upgrade.cattle.io/Plan:
