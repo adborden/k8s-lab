@@ -4,6 +4,7 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
+  application.resourceTrackingMethod: annotation
   kustomize.buildOptions: --enable-helm
   resource.customizations: |
     upgrade.cattle.io/Plan:
@@ -23,3 +24,11 @@ data:
           end
         end
         return hs
+  resourceExclusions: |
+    - apiGroups:
+        - velero.io
+      kinds:
+        - Backup
+        - Restore
+      clusters:
+        - "*"

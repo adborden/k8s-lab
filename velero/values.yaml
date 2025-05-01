@@ -1,20 +1,35 @@
 ---
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:v1.12.0
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
 configuration:
   backupStorageLocation:
     - name: default
-      provider: velero.io/aws
+      provider: aws
       bucket: a14n-velero-backups
       config:
         s3Url: https://s3.us-west-002.backblazeb2.com
-        region: sfo3
+        region: us-west-002
+        checksumAlgorithm: ""
       credential:
         name: velero-b2
-        key: application-key
+        key: aws
   volumeSnapshotLocation:
     - name: default
-      provider: velero.io/csi
-      credential:
-        name: velero-b2
-        key: application-key
+      provider: csi
+      credential: {}
       config: {}
   features: EnableCSI
+schedules:
+  cluster:
+    schedule: '@every 24h'
+    includeClusterResources: true
+    template:
+      csiSnapshotTimeout: 30m
+      itemOperationTimeout: 60m
+      ttl: 336h
+    useOwnerReferencesInBackup: false
