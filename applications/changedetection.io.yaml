@@ -1,0 +1,31 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: changedetection.io
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: ghcr.io/gabe565/charts
+      chart: changedetection-io
+      targetRevision: 0.12.0
+      helm:
+        releaseName: changedetection-io
+        valueFiles:
+          - $values/changedetection.io/values.yaml
+    - repoURL: https://github.com/adborden/k8s-lab.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: changedetection-io
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true

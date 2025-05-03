@@ -1,0 +1,24 @@
+---
+env:
+  TZ: America/Los_Angeles
+
+ingress:
+  main:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    hosts:
+      - host: changedetection.fl.a14n.net
+        paths:
+          - path: /
+    tls:
+      - hosts:
+          - changedetection.fl.a14n.net
+        secretName: changedetection-tls
+
+persistence:
+  data:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi
