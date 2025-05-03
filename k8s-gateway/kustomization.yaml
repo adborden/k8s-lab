@@ -12,3 +12,24 @@ helmCharts:
     version: 2.4.0
     valuesInline:
       domain: fl.a14n.net lunarkittylanding.party
+      fallthrough:
+        enabled: true
+      watchedResources:
+        - Ingress
+      zoneFiles:
+        - filename: static
+          contents: |-
+            $ORIGIN fl.a14n.net.
+            $TTL 300
+
+            @ IN SOA k8s-gateway.default.fl.a14n.net. hostmaster.k8s-gateway.default.fl.a14n.net. (
+                                    12345 ; serial
+                                    7200 ; refresh
+                                    1800 ; retry
+                                    86400 ; expire
+                                    60 ; minimum TTL
+                                    )
+
+            kubernetes IN      A       192.168.8.3
+            kubernetes IN      A       192.168.8.4
+            kubernetes IN      A       192.168.8.5
