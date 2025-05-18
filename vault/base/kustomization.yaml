@@ -4,6 +4,9 @@ kind: Kustomization
 
 namespace: vault
 
+resources:
+  - resources/certificate.yaml
+
 helmCharts:
   - name: vault
     includeCRDs: true
@@ -11,6 +14,8 @@ helmCharts:
     releaseName: vault
     version: 0.30.0
     valuesInline:
+      global:
+        tlsDisable: false
       server:
         dataStorage:
           enabled: true
@@ -19,6 +24,11 @@ helmCharts:
           # Impersonation non-credentials via configmap
           GOOGLE_APPLICATION_CREDENTIALS: >-
             /etc/workload-identity/credentials.json
+          #VAULT_LOG_LEVEL: trace
+          # https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-tls
+          VAULT_CACERT: /etc/ssl/vault/ca.crt
+          VAULT_TLSCERT: /etc/ssl/vault/tls.crt
+          VAULT_TLSKEY: /etc/ssl/vault/tls.key
         updateStrategyType: RollingUpdate
         volumes:
           - name: token
@@ -32,12 +42,18 @@ helmCharts:
           - name: google-creds
             configMap:
               name: google-creds
+          - name: vault-server-tls
+            secret:
+              secretName: vault-server-tls
         volumeMounts:
           - name: token
             mountPath: /var/run/vault-fl-a14n-net
             readOnly: true
           - name: google-creds
             mountPath: /etc/workload-identity
+            readOnly: true
+          - name: vault-server-tls
+            mountPath: /etc/ssl/vault
             readOnly: true
         ha:
           enabled: true
@@ -48,9 +64,19 @@ helmCharts:
               ui = true
 
               listener "tcp" {
-                tls_disable = 1
                 address = "[::]:8200"
                 cluster_address = "[::]:8201"
+
+                # TLS
+                tls_cert_file      = "/etc/ssl/vault/tls.crt"
+                tls_key_file       = "/etc/ssl/vault/tls.key"
+                tls_client_ca_file = "/etc/ssl/vault/ca.crt"
+
+                # TLS client auth
+                x_forwarded_for_authorized_addrs = ["10.42.0.0/16"]
+                x_forwarded_for_client_cert_header = "ssl-client-cert"
+                x_forwarded_for_client_cert_header_decoders = "URL,DER"
+
                 # Enable unauthenticated metrics access (necessary for Prometheus Operator)
                 telemetry {
                   unauthenticated_metrics_access = "true"
@@ -73,6 +99,14 @@ helmCharts:
           enabled: true
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            # Change to optional_no_ca to support multiple cert auth backends,
+            # currently hardcoded to node-ca based on CA secret
+            nginx.ingress.kubernetes.io/auth-tls-verify-client: optional
+            nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
+            nginx.ingress.kubernetes.io/auth-tls-secret: vault/node-ca
+            # nginx will auth to vault
+            nginx.ingress.kubernetes.io/proxy-ssl-secret: vault/vault-client-tls
           ingressClassName: nginx
           hosts:
             - host: vault.fl.a14n.net
