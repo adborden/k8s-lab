@@ -18,13 +18,17 @@ helmCharts:
         minAvailable: 1
         autoscaling:
           enabled: true
-          maxReplicas: 3
+          maxReplicas: 5
           minReplicas: 2
         extraArgs:
           enable-ssl-passthrough: true
         resources:
           requests:
-            memory: 256Mi
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
         services:
           externalIPs:
             - '192.168.8.3'
