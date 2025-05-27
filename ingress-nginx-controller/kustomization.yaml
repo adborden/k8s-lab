@@ -15,6 +15,11 @@ helmCharts:
     version: 4.12.2
     valuesInline:
       controller:
+        minAvailable: 1
+        autoscaling:
+          enabled: true
+          maxReplicas: 3
+          minReplicas: 2
         extraArgs:
           enable-ssl-passthrough: true
         services:
