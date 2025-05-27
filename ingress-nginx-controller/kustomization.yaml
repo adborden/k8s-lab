@@ -22,6 +22,9 @@ helmCharts:
           minReplicas: 2
         extraArgs:
           enable-ssl-passthrough: true
+        resources:
+          requests:
+            memory: 256Mi
         services:
           externalIPs:
             - '192.168.8.3'
