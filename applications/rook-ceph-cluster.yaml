@@ -25,6 +25,7 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt
         monitoring:
           enabled: true
+          createPrometheusRules: true
         toolbox:
           enabled: true
         cephClusterSpec:
@@ -52,6 +53,7 @@ spec:
             storageClass:
               enabled: true
               name: ceph-ssd
+              isDefault: true
               volumeBindingMode: WaitForFirstConsumer
               parameters:
                 imageFormat: "2"
@@ -73,7 +75,7 @@ spec:
             storageClass:
               enabled: true
               name: ceph-hdd
-              isDefault: true
+              isDefault: false
               volumeBindingMode: WaitForFirstConsumer
               parameters:
                 imageFormat: "2"
