@@ -25,6 +25,7 @@ spec:
               cert-manager.io/cluster-issuer: letsencrypt
         monitoring:
           enabled: true
+          createPrometheusRules: true
         toolbox:
           enabled: true
         cephClusterSpec:
