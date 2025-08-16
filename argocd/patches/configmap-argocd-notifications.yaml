@@ -26,7 +26,10 @@ data:
         - on-created
         - on-deleted
         - on-deployed
+        - on-health-degraded
         - on-sync-failed
+        - on-sync-succeeded
+        - on-sync-status-unknown
 
   # https://github.com/argoproj/argo-cd/blob/6daaac59249d76e16a63fc6e047ded67d39222cf/notifications_catalog/install.yaml
   # Updated for discord
