@@ -32,6 +32,9 @@ spec:
           dashboard:
             enabled: true
             ssl: false
+          storage:
+            config:
+              encryptedDevice: "true"
           placement:
             all:
               nodeAffinity:
