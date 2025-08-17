@@ -108,6 +108,9 @@ helmCharts:
                         values:
                           - ceph
           retention: 30d
+          ruleSelectorNilUsesHelmValues: false
+          podMonitorSelectorNilUsesHelmValues: false
+          probeSelectorNilUsesHelmValues: false
           scrapeConfigSelectorNilUsesHelmValues: false
           serviceMonitorSelectorNilUsesHelmValues: false
           storageSpec:
