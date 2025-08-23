@@ -1,0 +1,9 @@
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: grafana-migration
+spec:
+  volumeSnapshotClassName: ceph-block
+  source:
+    persistentVolumeClaimName: prometheus-stack-grafana
