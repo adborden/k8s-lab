@@ -1,0 +1,10 @@
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: prometheus-migration
+spec:
+  volumeSnapshotClassName: ceph-block
+  source:
+    persistentVolumeClaimName: >-
+      prometheus-prometheus-stack-kube-prom-prometheus-db-prometheus-prometheus-stack-kube-prom-prometheus-0

@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-data-prometheus-prometheus-stack-kube-prom-prometheus-0
+spec:
+  storageClassName: ceph-ssd
+  dataSource:
+    name: prometheus-migration-20250823
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi

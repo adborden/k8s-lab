@@ -7,3 +7,4 @@ nameSuffix: "-20250823"
 
 resources:
   - resources/grafana-volume-snapshot.yaml
+  - resources/prometheus-volume-snapshot.yaml
