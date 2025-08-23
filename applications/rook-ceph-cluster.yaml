@@ -35,8 +35,6 @@ spec:
           storage:
             config:
               encryptedDevice: "true"
-            migration:
-              confirmation: "yes-really-migrate-osds"
           placement:
             all:
               nodeAffinity:
