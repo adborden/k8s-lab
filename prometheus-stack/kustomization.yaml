@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - resources/grafana-pvc.yaml
   - resources/namespace.yaml
+  - resources/prometheus-pvc.yaml
 
 helmCharts:
   - name: kube-prometheus-stack
@@ -117,6 +118,8 @@ helmCharts:
           serviceMonitorSelectorNilUsesHelmValues: false
           storageSpec:
             volumeClaimTemplate:
+              metadata:
+                name: prometheus-data
               spec:
                 accessModes: ["ReadWriteOnce"]
                 resources:
