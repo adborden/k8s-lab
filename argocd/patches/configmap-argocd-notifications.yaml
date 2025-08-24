@@ -92,7 +92,7 @@ data:
           ,
           {
             "title": "{{$c.type}}",
-            "value": "{{$c.message}}",
+            "value": "{{$c.message | js}}",
             "short": true
           }
           {{end}}
@@ -119,7 +119,7 @@ data:
           ,
           {
             "name": "{{$c.type}}",
-            "value": "{{$c.message}}"
+            "value": "{{$c.message | js}}"
           }
         {{end}}
         ]
@@ -174,7 +174,7 @@ data:
                   ,
                   {
                     "name": "{{$c.type}}",
-                    "value": "{{$c.message}}",
+                    "value": "{{$c.message | js}}",
                     "inline": true
                   }
                   {{end}}
@@ -209,7 +209,7 @@ data:
           ,
           {
             "title": "{{$c.type}}",
-            "value": "{{$c.message}}",
+            "value": "{{$c.message | js}}",
             "short": true
           }
           {{end}}
@@ -232,7 +232,7 @@ data:
           ,
           {
             "name": "{{$c.type}}",
-            "value": "{{$c.message}}"
+            "value": "{{$c.message | js}}"
           }
         {{end}}
         ]
@@ -282,7 +282,7 @@ data:
                   ,
                   {
                     "name": "{{$c.type}}",
-                    "value": "{{$c.message}}",
+                    "value": "{{$c.message | js}}",
                     "inline": true
                   }
                   {{end}}
@@ -317,7 +317,7 @@ data:
           ,
           {
             "title": "{{$c.type}}",
-            "value": "{{$c.message}}",
+            "value": "{{$c.message | js}}",
             "short": true
           }
           {{end}}
@@ -344,7 +344,7 @@ data:
           ,
           {
             "name": "{{$c.type}}",
-            "value": "{{$c.message}}"
+            "value": "{{$c.message | js}}"
           }
         {{end}}
         ]
@@ -373,7 +373,7 @@ data:
         body: |
           {
             "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
-            "content": ":exclamation: The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}} ([details]({{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true)).",
+            "content": ":exclamation: The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message | js}} ([details]({{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true)).",
             "embeds": [
               {
                 "title": "{{ .app.metadata.name }}",
@@ -394,7 +394,7 @@ data:
                   ,
                   {
                     "name": "{{$c.type}}",
-                    "value": "{{$c.message}}",
+                    "value": "{{$c.message | js}}",
                     "inline": true
                   }
                   {{end}}
@@ -429,7 +429,7 @@ data:
           ,
           {
             "title": "{{$c.type}}",
-            "value": "{{$c.message}}",
+            "value": "{{$c.message | js}}",
             "short": true
           }
           {{end}}
@@ -456,7 +456,7 @@ data:
           ,
           {
             "name": "{{$c.type}}",
-            "value": "{{$c.message}}"
+            "value": "{{$c.message | js}}"
           }
         {{end}}
         ]
@@ -505,7 +505,7 @@ data:
                   ,
                   {
                     "name": "{{$c.type}}",
-                    "value": "{{$c.message}}",
+                    "value": "{{$c.message | js}}",
                     "inline": true
                   }
                   {{end}}
@@ -545,7 +545,7 @@ data:
           ,
           {
             "title": "{{$c.type}}",
-            "value": "{{$c.message}}",
+            "value": "{{$c.message | js}}",
             "short": true
           }
           {{end}}
@@ -568,7 +568,7 @@ data:
           ,
           {
             "name": "{{$c.type}}",
-            "value": "{{$c.message}}"
+            "value": "{{$c.message | js}}"
           }
         {{end}}
         ]
@@ -596,7 +596,7 @@ data:
         body: |
           {
             "avatar_url": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
-            "content": ":exclamation: Application {{.app.metadata.name}} sync is 'Unknown'. Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.\n{{range $c := .app.status.conditions}}\n* {{$c.message}}{{end}}",
+            "content": ":exclamation: Application {{.app.metadata.name}} sync is 'Unknown'. Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.\n{{range $c := .app.status.conditions}}\n* {{$c.message | js}}{{end}}",
             "embeds": [
               {
                 "title": "{{ .app.metadata.name }}",
@@ -617,7 +617,7 @@ data:
                   ,
                   {
                     "name": "{{$c.type}}",
-                    "value": "{{$c.message}}",
+                    "value": "{{$c.message | js}}",
                     "inline": true
                   }
                   {{end}}
@@ -652,7 +652,7 @@ data:
           ,
           {
             "title": "{{$c.type}}",
-            "value": "{{$c.message}}",
+            "value": "{{$c.message | js}}",
             "short": true
           }
           {{end}}
@@ -679,7 +679,7 @@ data:
           ,
           {
             "name": "{{$c.type}}",
-            "value": "{{$c.message}}"
+            "value": "{{$c.message | js}}"
           }
         {{end}}
         ]
@@ -729,7 +729,7 @@ data:
                   ,
                   {
                     "name": "{{$c.type}}",
-                    "value": "{{$c.message}}",
+                    "value": "{{$c.message | js}}",
                     "inline": true
                   }
                   {{end}}
