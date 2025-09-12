@@ -44,6 +44,12 @@ helmCharts:
         alertmanagerSpec:
           secrets:
             - alertmanager-pagerduty
+          storage:
+            volumeClaimTemplate:
+              spec:
+                resources:
+                  requests:
+                    storage: 10Gi
         ingress:
           enabled: true
           annotations:
