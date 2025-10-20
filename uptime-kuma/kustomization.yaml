@@ -14,4 +14,4 @@ patches:
 
 images:
   - name: louislam/uptime-kuma
-    newTag: 1.23.16
+    newTag: 1.23.17
