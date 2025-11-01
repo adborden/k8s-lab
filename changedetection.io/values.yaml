@@ -2,6 +2,10 @@
 env:
   TZ: America/Los_Angeles
 
+image:
+  # renovate: datasource=docker depName=ghcr.io/dgtlmoon/changedetection.io
+  tag: 0.50.38
+
 ingress:
   main:
     enabled: true
