@@ -35,6 +35,7 @@ spec:
           storage:
             config:
               encryptedDevice: "true"
+              enableCrushUpdates: "true"
           placement:
             all:
               nodeAffinity:
