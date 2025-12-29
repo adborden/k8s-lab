@@ -4,8 +4,6 @@ kind: Application
 metadata:
   name: prometheus-stack
   namespace: argocd
-  annotations:
-    notifications.argoproj.io/subscribe.on-sync-succeeded.discord: discord
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
