@@ -12,7 +12,7 @@ helmCharts:
     includeCRDs: true
     repo: https://helm.releases.hashicorp.com
     releaseName: vault
-    version: 0.31.0
+    version: 0.32.0
     valuesInline:
       global:
         tlsDisable: false
