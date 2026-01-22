@@ -29,7 +29,11 @@ helmCharts:
                 matchers:
                   - service="solana"
                 continue: false
+              - matchers:
+                  - alertname="InfoInhibitor"
+                receiver: "null"
           receivers:
+            - name: "null"
             - name: default
               # discord_configs:
               #   - webhook_url: ""
