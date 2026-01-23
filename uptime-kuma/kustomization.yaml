@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: uptime-kuma
 
 resources:
-  - https://github.com/adborden/k8s-uptime-kuma.git/uptime-kuma?ref=main
+  - https://github.com/adborden/k8s-uptime-kuma.git/uptime-kuma?ref=v1.0.0
   - resources/ingress.yaml
   - resources/namespace.yaml
 
