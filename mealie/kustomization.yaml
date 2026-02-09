@@ -1,0 +1,60 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mealie
+
+resources:
+  - github.com/adborden/k8s-mealie.git//manifests?ref=main
+  - resources/cluster.yaml
+  - resources/ingress.yaml
+
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+      name: mealie
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 4Gi
+  - target:
+      kind: Deployment
+      name: mealie
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env
+        value:
+          - name: DB_ENGINE
+            value: postgres
+          - name: POSTGRES_SERVER
+            valueFrom:
+              secretKeyRef:
+                name: mealie-db-app
+                key: host
+          - name: POSTGRES_PORT
+            valueFrom:
+              secretKeyRef:
+                name: mealie-db-app
+                key: port
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: mealie-db-app
+                key: dbname
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: mealie-db-app
+                key: user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mealie-db-app
+                key: password
+
+configMapGenerator:
+  - name: mealie
+    behavior: merge
+    literals:
+      - TZ=America/Los_Angeles
+      - BASE_URL=https://mealie.fl.a14n.net
