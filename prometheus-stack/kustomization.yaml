@@ -13,7 +13,7 @@ helmCharts:
     repo: https://prometheus-community.github.io/helm-charts
     releaseName: prometheus-stack
     namespace: monitoring
-    version: 81.6.9
+    version: 82.0.0
     valuesInline:
       alertmanager:
         config:
