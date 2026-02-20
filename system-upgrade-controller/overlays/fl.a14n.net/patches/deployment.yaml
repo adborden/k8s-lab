@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: system-upgrade-controller
+  namespace: system-upgrade
+spec:
+  template:
+    spec:
+      volumes:
+        - hostPath:
+            path: /usr/share/ssl
+            type: DirectoryOrCreate
+          name: usr-share-ssl
+        - hostPath:
+            path: /usr/share/ca-certificates
+            type: DirectoryOrCreate
+          name: usr-share-ca-certificates
+      containers:
+        - name: system-upgrade-controller
+          volumeMounts:
+            - mountPath: /usr/share/ssl
+              name: usr-share-ssl
+              readOnly: true
+            - mountPath: /usr/share/ca-certificates
+              name: usr-share-ca-certificates
+              readOnly: true
