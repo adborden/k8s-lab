@@ -100,9 +100,10 @@ helmCharts:
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt
             nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-            # Change to optional_no_ca to support multiple cert auth backends,
-            # currently hardcoded to node-ca based on CA secret
-            nginx.ingress.kubernetes.io/auth-tls-verify-client: optional
+            # Change to `optional` to validate the CA. You must configure the
+            # CA cert within the secert. We currently use optional_no_ca and
+            # let vault decide which CAs to authenticate.
+            nginx.ingress.kubernetes.io/auth-tls-verify-client: optional_no_ca
             nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
             nginx.ingress.kubernetes.io/auth-tls-secret: vault/node-ca
             # nginx will auth to vault
