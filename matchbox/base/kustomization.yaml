@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - resources/pvc.yaml
+  - resources/service.yaml
+  - resources/deployment.yaml
+
+configMapGenerator:
+  - name: flatcar-downloader
+    files:
+      - files/download-flatcar.sh
+  - name: git-sync
+    literals:
+      - GITSYNC_REPO=https://github.com/adborden/matchbox-lab.git

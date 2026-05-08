@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: matchbox
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - matchbox.fl.a14n.net
+      secretName: matchbox-tls
+  rules:
+    - host: matchbox.fl.a14n.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: matchbox
+                port:
+                  number: 8080
