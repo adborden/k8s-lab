@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matchbox
+  labels:
+    app: matchbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matchbox
+  template:
+    metadata:
+      labels:
+        app: matchbox
+    spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: init-assets
+          image: alpine:latest
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              "mkdir -p /var/lib/matchbox/assets /var/lib/matchbox/config && chown -R 1000:1000 /var/lib/matchbox",
+            ]
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/matchbox/assets
+              subPath: assets
+            - name: data
+              mountPath: /var/lib/matchbox/config
+              subPath: config
+        - name: git-sync-init
+          image: registry.k8s.io/git-sync/git-sync:v4.2.4
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          env:
+            - name: GITSYNC_REPO
+              valueFrom:
+                configMapKeyRef:
+                  name: git-sync
+                  key: GITSYNC_REPO
+            - name: GITSYNC_ROOT
+              value: "/var/lib/matchbox/config"
+            - name: GITSYNC_LINK
+              value: "current"
+            - name: GITSYNC_ONE_TIME
+              value: "true"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/matchbox/config
+              subPath: config
+      containers:
+        - name: matchbox
+          image: quay.io/poseidon/matchbox:v0.11.0
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          args:
+            - -data-path=/var/lib/matchbox/config/current
+            - -assets-path=/var/lib/matchbox/assets
+            - -address=0.0.0.0:8080
+            - -log-level=debug
+          ports:
+            - name: http
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/matchbox/config
+              subPath: config
+            - name: data
+              mountPath: /var/lib/matchbox/assets
+              subPath: assets
+
+        - name: git-sync
+          image: registry.k8s.io/git-sync/git-sync:v4.2.4
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          env:
+            - name: GITSYNC_REPO
+              valueFrom:
+                configMapKeyRef:
+                  name: git-sync
+                  key: GITSYNC_REPO
+            - name: GITSYNC_ROOT
+              value: /var/lib/matchbox/config
+            - name: GITSYNC_LINK
+              value: current
+            - name: GITSYNC_PERIOD
+              value: "60s"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/matchbox/config
+              subPath: config
+
+        - name: flatcar-downloader
+          image: alpine:latest
+          command: ["/bin/sh", "/scripts/download-flatcar.sh"]
+          env:
+            - name: FLATCAR_CHANNEL
+              value: "stable"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/matchbox/assets
+              subPath: assets
+            - name: scripts
+              mountPath: /scripts
+          # Alpine doesn't have curl by default
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "apk add --no-cache curl"]
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: matchbox-data
+        - name: scripts
+          configMap:
+            name: flatcar-downloader
+            defaultMode: 0755
