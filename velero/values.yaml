@@ -1,7 +1,8 @@
 ---
 initContainers:
   - name: velero-plugin-for-aws
-    image: velero/velero-plugin-for-aws:v1.14.1
+    # Pin 1.13.x until https://github.com/velero-io/velero-plugin-for-aws/pull/299 is released
+    image: velero/velero-plugin-for-aws:v1.13.2
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - mountPath: /target
