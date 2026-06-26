@@ -9,6 +9,7 @@ metadata:
 spec:
   concurrency: 1
   channel: https://update.k3s.io/v1-release/channels/stable
+  exclusive: true # Only one exclusive plan should run at a time
   nodeSelector:
     matchExpressions:
       - key: k3s-upgrade
@@ -36,6 +37,7 @@ metadata:
 spec:
   concurrency: 1
   channel: https://update.k3s.io/v1-release/channels/stable
+  exclusive: true # Only one exclusive plan should run at a time
   nodeSelector:
     matchExpressions:
       - key: k3s-upgrade
