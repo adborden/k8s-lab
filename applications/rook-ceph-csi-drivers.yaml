@@ -14,7 +14,7 @@ spec:
         valueFiles:
           - $values/rook-ceph/values.yaml
     - repoURL: https://github.com/adborden/k8s-lab.git
-      targetRevision: bugfix/rook-ceph
+      targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
