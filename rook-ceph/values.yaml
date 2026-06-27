@@ -18,6 +18,7 @@ operatorConfig:
       priorityClassName: system-node-critical
     controllerPlugin:
       priorityClassName: system-cluster-critical
+      replicas: 2
 
 drivers:
   rbd:
