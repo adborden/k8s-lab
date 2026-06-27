@@ -19,6 +19,16 @@ operatorConfig:
     controllerPlugin:
       priorityClassName: system-cluster-critical
       replicas: 2
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - ceph-csi
+              topologyKey: topology.kubernetes.io/host
 
 drivers:
   rbd:
