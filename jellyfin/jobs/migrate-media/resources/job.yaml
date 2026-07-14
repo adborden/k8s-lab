@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jellyfin-migrate-media
+spec:
+  template:
+    metadata:
+      name: jellyfin-migrate-media
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/instance
+                    operator: In
+                    values:
+                      - jellyfin
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: migrate-media
+          image: debian:stable-slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -ex
+
+              # Ensure the music target directory exists
+              mkdir -p /media/music
+
+              # Move all directories in /media to /media/music
+              for dir in /media/*; do
+                  # Skip if it is not a directory, or if it is the target music directory, or lost+found
+                  if [ -d "${dir}" ] \
+                     && [ ! -L "${dir}" ] \
+                     && [ "${dir}" != "/media/music" ] \
+                     && [ "${dir}" != "/media/lost+found" ]; then
+
+                      dir_name="${dir##*/}"
+                      if [ ! -d "/media/music/${dir_name}" ]; then
+                          mv "${dir}" "/media/music/${dir_name}"
+                      fi
+                  fi
+              done
+          volumeMounts:
+            - name: media-storage
+              mountPath: /media
+      restartPolicy: Never
+      volumes:
+        - name: media-storage
+          persistentVolumeClaim:
+            claimName: jellyfin-media
+  backoffLimit: 3

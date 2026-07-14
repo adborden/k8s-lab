@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jellyfin-import-tv-shows
+spec:
+  template:
+    metadata:
+      name: jellyfin-import-tv-shows
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/instance
+                    operator: In
+                    values:
+                      - jellyfin
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: rclone
+          image: rclone/rclone:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -ex
+
+              # Ensure the tv-shows directory exists on the mounted volume
+              mkdir -p /media/tv-shows
+
+              # Copy TV series folders from SMB source to local tv-shows folder
+              rclone copy :smb,host=gnubee-pc1.lan.internal,user=guest,pass=:media/video /media/tv-shows \
+                --progress \
+                --checkers 8 \
+                --transfers 4
+
+              # Restructure files: move episode files into "Season XX" folders under each series
+              find /media/tv-shows -mindepth 2 -maxdepth 2 -type f | while read -r file; do
+                  filename="${file##*/}"
+                  series_dir="$(dirname "${file}")"
+
+                  # Extract season number using sed (matches s[0-9]+e[0-9]+ case-insensitively)
+                  season_num=$(echo "${filename}" | sed -E -n 's/.*[sS]([0-9]+)[eE][0-9]+.*/\1/p')
+
+                  if [ -n "${season_num}" ]; then
+                      # Pad season number to 2 digits (e.g. 0 -> 00, 1 -> 01)
+                      season_padded=$(printf "%02d" "${season_num}" 2>/dev/null || echo "${season_num}")
+                      season_dir="${series_dir}/Season ${season_padded}"
+
+                      echo "Moving episode '${filename}' to '${season_dir}/'"
+                      mkdir -p "${season_dir}"
+                      mv "${file}" "${season_dir}/"
+                  else
+                      echo "Could not parse season from '${filename}', skipping restructure for this file"
+                  fi
+              done
+          volumeMounts:
+            - name: media-storage
+              mountPath: /media
+      restartPolicy: Never
+      volumes:
+        - name: media-storage
+          persistentVolumeClaim:
+            claimName: jellyfin-media
+  backoffLimit: 3
