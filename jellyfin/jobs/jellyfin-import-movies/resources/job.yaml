@@ -1,0 +1,57 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jellyfin-import-movies
+spec:
+  template:
+    metadata:
+      name: jellyfin-import-movies
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/instance
+                    operator: In
+                    values:
+                      - jellyfin
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: rclone
+          image: rclone/rclone:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -ex
+
+              # Ensure the movies directory exists on the mounted volume
+              mkdir -p /media/movies
+
+              # Use rclone's connection string for anonymous SMB mount to copy all movie files to the movies folder
+              rclone copy :smb,host=gnubee-pc1,user=guest,pass=:media/movies /media/movies \
+                --progress \
+                --checkers 8 \
+                --transfers 4
+
+              # Restructure flat movie files into directories named after each movie title and year
+              for file in /media/movies/*; do
+                  # Only target files (skips already restructured directories)
+                  if [ -f "${file}" ]; then
+                      filename="${file##*/}"
+                      dir_name="${filename%.*}"
+
+                      echo "Moving movie '${filename}' into directory '/media/movies/${dir_name}'"
+                      mkdir -p "/media/movies/${dir_name}"
+                      mv "${file}" "/media/movies/${dir_name}/"
+                  fi
+              done
+          volumeMounts:
+            - name: media-storage
+              mountPath: /media
+      restartPolicy: Never
+      volumes:
+        - name: media-storage
+          persistentVolumeClaim:
+            claimName: jellyfin-media
+  backoffLimit: 3
