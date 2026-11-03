@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
-      - uses: Gr1N/setup-poetry@v9
+      - uses: Gr1N/setup-poetry@v10
       - name: install python dependencies
         run: poetry install --with=dev
       - name: install ansible dependencies
