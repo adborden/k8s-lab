@@ -5,7 +5,7 @@ env:
 image:
   registry: ghcr.io
   repository: dgtlmoon/changedetection.io
-  tag: 0.60.10
+  tag: 0.70.2
 
 ingress:
   main:
