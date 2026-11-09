@@ -7,8 +7,28 @@ namespace: kube-system
 helmCharts:
   - name: k8s-gateway
     includeCRDs: true
-    repo: https://ori-edge.github.io/k8s_gateway/
+    repo: oci://codeberg.org/k8s-gateway/charts
     releaseName: k8s-gateway
-    version: 2.4.0
+    version: 4.0.1
     valuesInline:
-      domain: fl.a14n.net lunarkittylanding.party
+      servers:
+        - zones:
+            - zone: .
+          port: 53
+          plugins:
+            - name: errors
+            - name: health
+              configBlock: |-
+                lameduck 10s
+            - name: ready
+            - name: k8s_gateway
+              parameters: fl.a14n.net lunarkittylanding.party
+              configBlock: |-
+                resources Ingress Service
+                loadBalancerAddressPreference ip
+            - name: forward
+              parameters: . /etc/resolv.conf
+            - name: cache
+              parameters: 30
+            - name: reload
+            - name: loadbalance
