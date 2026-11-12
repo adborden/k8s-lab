@@ -1,0 +1,34 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: paperless
+
+helmCharts:
+  - name: paperless
+    includeCRDs: true
+    repo: oci://ghcr.io/dominik-ba/charts
+    releaseName: paperless
+    namespace: paperless
+    version: 0.3.6
+    valuesInline:
+      ingress:
+        enabled: true
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - host: paperless.fl.a14n.net
+        tls:
+          - secretName: paperless-tls
+            hosts:
+              - paperless.fl.a14n.net
+      paperless:
+        url: https://paperless.fl.a14n.net
+        timeZone: America/Los_Angeles
+        ocrLanguage: eng
+        ocrLanguages: eng
+      gotenberg:
+        enabled: true # Office docs -> PDF
+      tika:
+        enabled: true # Text/metadata extraction
