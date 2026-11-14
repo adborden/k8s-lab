@@ -36,6 +36,12 @@ spec:
             config:
               encryptedDevice: "true"
               enableCrushUpdates: "true"
+          security:
+            cephx:
+              csi:
+                # TODO: move to aes256k when linux kernel 7.x is available to nodes
+                # https://rook.io/docs/rook/v1.20/Storage-Configuration/Advanced/cephx-key-rotation/#csi-keys
+                keyType: aes
           placement:
             all:
               nodeAffinity:
