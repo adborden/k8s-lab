@@ -1,0 +1,54 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - resources/database.yaml
+  - resources/pvc.yaml
+
+helmCharts:
+  - name: immich
+    repo: oci://ghcr.io/immich-app/immich-charts
+    releaseName: immich
+    namespace: immich
+    version: 0.13.4
+    valuesInline:
+      controllers:
+        main:
+          containers:
+            main:
+              image:
+                # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
+                tag: v3.4.1
+              env:
+                DB_HOSTNAME: immich-database-rw
+                DB_USERNAME: app
+                DB_DATABASE_NAME: app
+                DB_PASSWORD:
+                  valueFrom:
+                    secretKeyRef:
+                      name: immich-database-app
+                      key: password
+      immich:
+        persistence:
+          library:
+            existingClaim: immich-library
+      server:
+        ingress:
+          main:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+            className: nginx
+            hosts:
+              - host: immich.fl.a14n.net
+                paths:
+                  - path: "/"
+                    service:
+                      identifier: main
+            tls:
+              - hosts:
+                  - immich.fl.a14n.net
+                secretName: immich-tls
+      valkey:
+        enabled: true
