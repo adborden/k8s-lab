@@ -3,7 +3,9 @@
   "extends": ["config:recommended"],
   "separateMultipleMajor": true,
   "argocd": {
-    "fileMatch": ["applications/.+\\.yaml$"]
+    "managerFilePatterns": [
+      "/applications/.+\\.yaml$/"
+    ]
   },
   "crossplane": {
     "managerFilePatterns": ["/crossplane-providers/.+\\.yaml$/"]
