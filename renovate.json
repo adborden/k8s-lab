@@ -7,5 +7,24 @@
   },
   "crossplane": {
     "managerFilePatterns": ["/crossplane-providers/.+\\.yaml$/"]
-  }
+  },
+  "customManagers": [
+    {
+      "description": "Update versions annotated with a `# renovate: datasource=... depName=...` comment",
+      "customType": "regex",
+      "managerFilePatterns": ["/\\.ya?ml$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*[\\w-]+:\\s*[\"']?(?<currentValue>[^\\s\"']+)"
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Velero CRDs are tied to the minor version; minor/major upgrades must be coordinated with the helm chart",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["velero/velero"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    }
+  ]
 }
