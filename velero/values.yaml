@@ -11,6 +11,16 @@ initContainers:
     volumeMounts:
       - mountPath: /target
         name: plugins
+
+# Enable velero node-agent for CSI data mover. This allows us to backup CSI
+# VolumeSnapshots to the BackupLocation (off-cluster).
+# https://velero.io/docs/v1.18/csi-snapshot-data-movement/
+deployNodeAgent: true
+nodeAgent:
+  disableHostPath: true
+  nodeSelector:
+    a14n.net/storage: ceph
+
 configuration:
   backupStorageLocation:
     - name: default
@@ -82,5 +92,6 @@ schedules:
     template:
       csiSnapshotTimeout: 30m
       itemOperationTimeout: 60m
+      #snapshotMoveData: true
       ttl: 336h
     useOwnerReferencesInBackup: false
