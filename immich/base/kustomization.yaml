@@ -29,6 +29,7 @@ helmCharts:
                     secretKeyRef:
                       name: immich-database-app
                       key: password
+          strategy: Recreate
       immich:
         persistence:
           library:
