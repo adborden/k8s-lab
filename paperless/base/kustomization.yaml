@@ -10,7 +10,7 @@ helmCharts:
     repo: oci://ghcr.io/dominik-ba/charts
     releaseName: paperless
     namespace: paperless
-    version: 0.3.15
+    version: 0.3.16
     valuesInline:
       ingress:
         enabled: true
